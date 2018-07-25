@@ -1,3 +1,4 @@
+
 <template>
   <div class="home">
     <h1>{{ msg }}</h1>
@@ -11,11 +12,15 @@
 </template>
 
 <script>
+
+import consoleLogMixin from '../mixins/console-log-mixin';
+
 export default {
-  name: 'HomePage',
-  props: {
-    msg: String,
-  },
+    name: 'HomePage',
+    props: {
+        msg: String,
+    },
+    mixins: [consoleLogMixin]
 };
 </script>
 

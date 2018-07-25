@@ -5,13 +5,13 @@
 </template>
 
 <script>
-  import RobotBuilder from '../components/robotBuilder/RobotBuilder.vue';
+import RobotBuilder from '../components/RobotBuilder/RobotBuilder.vue';
 
-  export default {
-      name: 'build-bot',
-      components: {
-          RobotBuilder
-      }
-  }
+export default {
+  name: 'build-bot',
+  components: {
+    RobotBuilder,
+  },
+};
 
 </script>

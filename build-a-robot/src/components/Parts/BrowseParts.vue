@@ -23,7 +23,7 @@
     }
     .menu {
         display: flex;
-        justify-content: space-around;
+        justify-content: space-between;
         margin: 0 100px;
         font-size: 20px;
     }

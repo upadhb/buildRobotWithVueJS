@@ -5,8 +5,14 @@
           <img src="./assets/build-a-bot-logo.png" class="bot-home"/>
           Home
       </router-link> |
-      <router-link to="/build-bot">Build a Bot</router-link> |
+      <router-link to="/robotBuilder">Build a Bot</router-link> |
       <router-link to="/parts/browse">Parts Info</router-link>
+      <div class="cart">
+          <router-link to="/cart">
+              <img src="./assets/shoppig-cart.png" class="cart__image"/>
+          </router-link>
+          <span v-if="this.cart.length" class="cart__items">{{this.cart.length}}</span>
+      </div>
     </div>
       <div class="container">
          <!-- <aside class="aside">
@@ -18,6 +24,17 @@
       </div>
   </div>
 </template>
+
+<script>
+    export default {
+        name: 'app',
+        computed: {
+            cart() {
+                return this.$store.state.cart;
+            }
+        }
+    }
+</script>
 
 <style>
     body {
@@ -55,6 +72,7 @@
 
     .nav {
       padding: 30px;
+        position: relative;
       a {
         font-weight: bold;
         color: #2c3e50;
@@ -66,6 +84,23 @@
 
     .bot-home {
         height: 20px;
+    }
+
+    .cart {
+        position: absolute;
+        right: 70px;
+        top: 30px;
+
+        &__image {
+            height: 22px;
+        }
+
+        &__items {
+            color: red;
+            padding: 1px;
+            font-size: 12px;
+            position: absolute;
+        }
     }
 
 }

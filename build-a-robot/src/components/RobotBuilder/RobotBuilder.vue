@@ -1,5 +1,5 @@
 <template>
-    <div class="content">
+    <div v-if="availableParts" class="content">
         <div class="add-to-cart">
             <button class="add-to-cart-button" @click="addToCart()">Add to Cart</button>
             <Accordion>
@@ -17,7 +17,7 @@
                 </div>
             </div>-->
             <part-selector
-                    :parts="availableParts.heads"
+                    :parts="this.availableParts.heads"
                     position="top"
                     @partSelected="part => selectedRobot.head = part"
             />
@@ -46,23 +46,6 @@
                    @partSelected="part => selectedRobot.base = part"
            />
         </div>
-        <div v-if="cart.length > 0">
-            <h1>Cart</h1>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Robot</th>
-                        <th class="cost">Cost</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr v-for="(robot, index) in cart" :key="index">
-                        <td>{{robot.head.title}}</td>
-                        <td class="cost">${{robot.cost}}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
     </div>
 </template>
 
@@ -74,11 +57,21 @@ import Accordion from '../Shared/Accordion';
 
 export default {
   name: 'RobotBuilder',
+  created() {
+    this.$store.dispatch('getParts');
+  },
+  beforeRouteLeave(to, from, next) {
+    if(this.addedToCart) {
+        next(true);
+    } else {
+        const response = confirm('You haven not added your Robot to cart. Are you sure you want to leave?');
+        next(response);
+    }
+  },
   components: { PartSelector, SelectedRobot, Accordion },
   data() {
     return {
-        availableParts,
-        cart: [],
+        addedToCart: false,
         selectedRobot: {
             head: {},
             leftArm: {},
@@ -93,17 +86,14 @@ export default {
         const robot = this.selectedRobot;
         const cost = robot.head.cost + robot.leftArm.cost + robot.rightArm.cost + robot.torso.cost + robot.base.cost;
 
-        this.cart.push(Object.assign({}, robot, {cost}))
+        this.$store.commit('addRobotToCart', Object.assign({}, robot, {cost}));
+        this.addedToCart = true;
     }
   },
   computed: {
-      headBorderStyle() {
-          return {
-              border: this.selectedRobot.head.onSale
-                  ? '3px solid red'
-                  : '3px solid #aaa'
-          }
-      },
+      availableParts() {
+          return this.$store.state.parts;
+      }
   },
 };
 
@@ -201,15 +191,6 @@ export default {
         &:hover {
             background-color: forestgreen;
         }
-    }
-
-    td, th {
-        text-align: left;
-        padding: 5px 20px 5px 5px;
-    }
-
-    .cost {
-        text-align: right;
     }
 
 </style>

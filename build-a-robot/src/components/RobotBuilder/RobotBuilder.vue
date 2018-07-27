@@ -46,7 +46,7 @@
                    @partSelected="part => selectedRobot.base = part"
            />
         </div>
-        <div>
+        <div v-if="cart.length > 0">
             <h1>Cart</h1>
             <table>
                 <thead>

@@ -26,12 +26,14 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
+
     export default {
         name: 'app',
         computed: {
-            cart() {
-                return this.$store.state.cart;
-            }
+            ...mapState({
+                cart: state => state.robots.cart,
+            })
         }
     }
 </script>

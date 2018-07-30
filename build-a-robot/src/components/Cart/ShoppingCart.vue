@@ -18,7 +18,7 @@
                     {{robot.head.title}}
                 </td>
                 <td class="cost">
-                    ${{robot.cost}}
+                    {{robot.cost | currency}}
                 </td>
             </tr>
             </tbody>
@@ -41,7 +41,7 @@
                     {{robot.head.title}}
                 </td>
                 <td class="cost">
-                    ${{robot.cost}}
+                    {{robot.cost | currency}}
                 </td>
             </tr>
             </tbody>
@@ -50,15 +50,22 @@
 </template>
 
 <script>
+
+    import { mapState, mapGetters } from 'vuex';
+
     export default {
         name: 'Cart',
         computed: {
-            cart() {
-                return this.$store.state.cart;
-            },
-            cartSaleItems (){
-                return this.$store.getters.cartSaleItems;
-            }
+            ...mapState({
+                cart: state => state.robots.cart
+            }),
+            ...mapGetters({
+                cartSaleItems: 'robots/cartSaleItems'
+            })
+           /* //this is the way to use getters directly without helper method
+           cartSaleItems (){
+                return this.$store.getters['robots/cartSaleItems'];
+            }*/
         }
     };
 </script>

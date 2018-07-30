@@ -3,7 +3,7 @@
         <img :src="selectedPart.src" @click="showPartInfo()" title="arm"/>
         <button @click="selectPreviousPart()" class="prev-selector"></button>
         <button @click="selectNextPart()" class="next-selector"></button>
-        <span class="sale" v-show="selectedPart.onSale">Sale!</span>
+        <span class="sale" v-show="selectedPart.onSale" v-pin="{top: '5px', right: '5px'}" >Sale!</span>
     </div>
 </template>
 
@@ -23,6 +23,10 @@
 
     export default {
         name: 'PartSelector',
+       /* //component specific directive can be inserted here
+        directives: {
+          pin: pinDirective
+        },*/
         props: {
             parts: {
                 type: Array,
@@ -90,37 +94,15 @@
         cursor: pointer;
     }
     .sale {
-        position: absolute;
-        bottom: 5px;
-        right: 5px;
         color: white;
         background-color: red;
         padding: 3px;
     }
-    .part-title {
-        position: absolute;
-        width: 100%;
-        text-align: center;
-        font-size: 18px;
-        color: red;
-        padding-top: 5px;
-        top: -25px;
-    }
+
     .part img {
         width:165px;
     }
-    .top {
-        border-bottom: none;
-    }
-    .left {
-        border-right: none;
-    }
-    .right {
-        border-left: none;
-    }
-    .bottom {
-        border-top: none;
-    }
+
     .left img {
         transform: rotate(-90deg);
     }
@@ -184,7 +166,5 @@
         width: 144px;
         height: 25px;
     }
-    .highlight {
-        border: 1px solid red;
-    }
+
 </style>

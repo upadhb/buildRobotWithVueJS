@@ -7,15 +7,6 @@
             </Accordion>
         </div>
         <div class="top-row">
-            <!--<div class="top part head"
-                 :style="headBorderStyle"
-                 :class="{'sale-background': selectedRobot.head.onSale}"
-            >
-                <div class="robot-name">
-                    {{selectedRobot.head.title}}
-                    <span v-if="selectedRobot.head.onSale" class="sale">Sale!</span>
-                </div>
-            </div>-->
             <part-selector
                     :parts="this.availableParts.heads"
                     position="top"
@@ -50,15 +41,16 @@
 </template>
 
 <script>
-import availableParts from '../../data/parts';
+
+import { mapState, mapActions } from 'vuex';
 import PartSelector from '../PartSelector/PartSelector';
 import SelectedRobot from '../SelectedRobot/SelectedRobot';
 import Accordion from '../Shared/Accordion';
 
 export default {
-  name: 'RobotBuilder',
+    name: 'RobotBuilder',
   created() {
-    this.$store.dispatch('getParts');
+    this.getParts();
   },
   beforeRouteLeave(to, from, next) {
     if(this.addedToCart) {
@@ -82,18 +74,25 @@ export default {
     };
   },
   methods: {
+    ...mapActions(
+        {
+            getParts: 'robots/getParts',
+            addRobot: 'robots/addRobotToCart'
+        }
+    ),
     addToCart() {
         const robot = this.selectedRobot;
         const cost = robot.head.cost + robot.leftArm.cost + robot.rightArm.cost + robot.torso.cost + robot.base.cost;
 
-        this.$store.commit('addRobotToCart', Object.assign({}, robot, {cost}));
+        this.addRobot(Object.assign({}, robot, {cost}))
+            .then(() => this.$router.push('/cart'));
         this.addedToCart = true;
     }
   },
   computed: {
-      availableParts() {
-          return this.$store.state.parts;
-      }
+      ...mapState({
+          availableParts: state => state.robots.parts
+      })
   },
 };
 

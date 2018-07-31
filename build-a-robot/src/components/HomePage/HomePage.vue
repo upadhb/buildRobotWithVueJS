@@ -1,7 +1,7 @@
 
 <template>
   <div class="home">
-    <h1>{{ msg }}</h1>
+    <h1 id="home-title">{{ msg }}</h1>
     <div>
         <img class="robot" src="../../assets/robot.png" aria-hidden="true" />
     </div>

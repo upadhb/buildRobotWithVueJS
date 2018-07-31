@@ -19,4 +19,11 @@ module.exports = {
   testMatch: [
     '**/tests/unit/**/*.spec.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)',
   ],
+  collectCoverage: true,
+  collectCoverageFrom: [
+      "**/*.{js,vue}",
+      "!**/node_modules/**",
+      "!**/**.config.js",
+  ],
+  coverageReporters: ["html", "text-summary"]
 };
